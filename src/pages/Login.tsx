@@ -1,48 +1,64 @@
 import { useState } from "react";
-import { ShieldCheck } from "lucide-react";
+import { ShieldCheck, Globe } from "lucide-react";
 import { Card, CardContent, Input, Button } from "../components/ui/shared";
+import { useLanguage } from "../contexts/LanguageContext";
+import { languages } from "../translations";
 
 export function Login({ onLogin }: { onLogin: () => void }) {
   const [isLogin, setIsLogin] = useState(true);
+  const { t, language, setLanguage } = useLanguage();
 
   return (
-    <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center p-4">
+    <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center p-4 relative">
+      <div className="absolute top-4 right-4 flex items-center gap-2">
+        <Globe size={16} className="text-slate-400" />
+        <select 
+          value={language}
+          onChange={(e) => setLanguage(e.target.value as any)}
+          className="bg-slate-900 border border-slate-800 text-slate-300 text-sm rounded-md px-2 py-1 focus:outline-none"
+        >
+          {languages.map(l => (
+            <option key={l.code} value={l.code}>{l.name}</option>
+          ))}
+        </select>
+      </div>
+
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <div className="w-16 h-16 bg-emerald-500/10 text-emerald-400 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-emerald-500/20">
             <ShieldCheck size={32} />
           </div>
-          <h1 className="text-3xl font-bold text-slate-50">Cyber Shield</h1>
-          <p className="text-slate-400 mt-2">Protect your digital life today</p>
+          <h1 className="text-3xl font-bold text-slate-50">{t("nav.brand")}</h1>
+          <p className="text-slate-400 mt-2">{t("login.subtitle")}</p>
         </div>
 
         <Card className="bg-slate-900 border-slate-800">
           <CardContent className="p-8">
             <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); onLogin(); }}>
-              <h2 className="text-xl font-semibold mb-6">{isLogin ? 'Welcome Back' : 'Create Account'}</h2>
+              <h2 className="text-xl font-semibold mb-6">{isLogin ? t("login.welcome") : t("login.createAcc")}</h2>
               
               {!isLogin && (
                 <div>
-                  <label className="text-sm text-slate-400 block mb-1">Full Name</label>
+                  <label className="text-sm text-slate-400 block mb-1">{t("prof.name")}</label>
                   <Input placeholder="John Doe" required />
                 </div>
               )}
               
               <div>
-                <label className="text-sm text-slate-400 block mb-1">Email</label>
+                <label className="text-sm text-slate-400 block mb-1">{t("prof.email")}</label>
                 <Input type="email" placeholder="you@example.com" required />
               </div>
 
               <div>
                 <div className="flex justify-between items-center mb-1">
-                  <label className="text-sm text-slate-400">Password</label>
-                  {isLogin && <a href="#" className="text-xs text-emerald-400 hover:underline">Forgot password?</a>}
+                  <label className="text-sm text-slate-400">{t("prof.pass")}</label>
+                  {isLogin && <a href="#" className="text-xs text-emerald-400 hover:underline">{t("login.forgot")}</a>}
                 </div>
                 <Input type="password" placeholder="••••••••" required />
               </div>
 
               <Button type="submit" className="w-full py-3 mt-4">
-                {isLogin ? 'Sign In' : 'Sign Up'}
+                {isLogin ? t("login.signIn") : t("login.signUp")}
               </Button>
 
               <div className="relative my-6">
@@ -50,7 +66,7 @@ export function Login({ onLogin }: { onLogin: () => void }) {
                   <div className="w-full border-t border-slate-800"></div>
                 </div>
                 <div className="relative flex justify-center text-sm">
-                  <span className="px-2 bg-slate-900 text-slate-500">Or continue with</span>
+                  <span className="px-2 bg-slate-900 text-slate-500">{t("login.or")}</span>
                 </div>
               </div>
 
@@ -68,9 +84,9 @@ export function Login({ onLogin }: { onLogin: () => void }) {
         </Card>
 
         <p className="text-center text-sm text-slate-400 mt-6">
-          {isLogin ? "Don't have an account?" : "Already have an account?"}{' '}
+          {isLogin ? t("login.noAcc") : t("login.hasAcc")}{' '}
           <button onClick={() => setIsLogin(!isLogin)} className="text-emerald-400 font-medium hover:underline">
-            {isLogin ? 'Sign up' : 'Sign in'}
+            {isLogin ? t("login.signUp") : t("login.signIn")}
           </button>
         </p>
       </div>

@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Link2, ShieldAlert, ShieldCheck, Loader2 } from "lucide-react";
 import { Card, CardContent, Input, Button } from "../components/ui/shared";
+import { useLanguage } from "../contexts/LanguageContext";
 
 export function PhishingCheck() {
   const [url, setUrl] = useState("");
   const [status, setStatus] = useState<'idle' | 'scanning' | 'safe' | 'unsafe'>('idle');
+  const { t } = useLanguage();
 
   const checkUrl = (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,8 +29,8 @@ export function PhishingCheck() {
         <div className="w-16 h-16 bg-slate-800 rounded-2xl flex items-center justify-center mx-auto text-emerald-400">
           <Link2 size={32} />
         </div>
-        <h2 className="text-3xl font-bold">Phishing Link Checker</h2>
-        <p className="text-slate-400">Paste any suspicious link below to verify if it is safe to visit.</p>
+        <h2 className="text-3xl font-bold">{t("phish.title")}</h2>
+        <p className="text-slate-400">{t("phish.desc")}</p>
       </div>
 
       <Card>
@@ -41,7 +43,7 @@ export function PhishingCheck() {
               className="py-3 text-lg flex-1"
             />
             <Button type="submit" disabled={status === 'scanning'} className="py-3 px-8 text-lg shrink-0">
-              {status === 'scanning' ? <><Loader2 className="animate-spin" /> Scanning</> : 'Verify Link'}
+              {status === 'scanning' ? <><Loader2 className="animate-spin" /> {t("phish.scanning")}</> : t("phish.verify")}
             </Button>
           </form>
 
@@ -49,8 +51,8 @@ export function PhishingCheck() {
             <div className="mt-8 p-6 bg-emerald-500/10 border border-emerald-500/30 rounded-xl flex items-start gap-4">
                <div className="text-emerald-400 shrink-0"><ShieldCheck size={32} /></div>
                <div>
-                 <h4 className="font-semibold text-lg text-emerald-400">Safe to Visit</h4>
-                 <p className="text-emerald-100/70 mt-1">We did not find any phishing patterns or malicious content associated with this URL.</p>
+                 <h4 className="font-semibold text-lg text-emerald-400">{t("phish.safe")}</h4>
+                 <p className="text-emerald-100/70 mt-1">{t("phish.safeDesc")}</p>
                </div>
             </div>
           )}
@@ -59,8 +61,8 @@ export function PhishingCheck() {
             <div className="mt-8 p-6 bg-rose-500/10 border border-rose-500/30 rounded-xl flex items-start gap-4">
                <div className="text-rose-400 shrink-0"><ShieldAlert size={32} /></div>
                <div>
-                 <h4 className="font-semibold text-lg text-rose-400">Danger: Phishing Detected</h4>
-                 <p className="text-rose-100/70 mt-1">This link has been flagged as malicious. Do not visit this site or provide any personal information.</p>
+                 <h4 className="font-semibold text-lg text-rose-400">{t("phish.unsafe")}</h4>
+                 <p className="text-rose-100/70 mt-1">{t("phish.unsafeDesc")}</p>
                </div>
             </div>
           )}
@@ -70,21 +72,21 @@ export function PhishingCheck() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
          <Card className="bg-slate-900/50">
            <CardContent>
-             <h4 className="font-medium text-emerald-400 mb-2">How to spot a fake link</h4>
+             <h4 className="font-medium text-emerald-400 mb-2">{t("phish.spot")}</h4>
              <ul className="text-sm text-slate-400 space-y-2 list-disc list-inside">
-               <li>Check for misspellings (e.g. g00gle.com)</li>
-               <li>Verify the domain extension</li>
-               <li>Avoid unexpected shortened links</li>
+               <li>{t("phish.spot1")}</li>
+               <li>{t("phish.spot2")}</li>
+               <li>{t("phish.spot3")}</li>
              </ul>
            </CardContent>
          </Card>
          <Card className="bg-slate-900/50">
            <CardContent>
-             <h4 className="font-medium text-amber-400 mb-2">What to do if you clicked</h4>
+             <h4 className="font-medium text-amber-400 mb-2">{t("phish.todo")}</h4>
              <ul className="text-sm text-slate-400 space-y-2 list-disc list-inside">
-               <li>Disconnect from the internet</li>
-               <li>Run a full security scan</li>
-               <li>Change compromised passwords</li>
+               <li>{t("phish.todo1")}</li>
+               <li>{t("phish.todo2")}</li>
+               <li>{t("phish.todo3")}</li>
              </ul>
            </CardContent>
          </Card>

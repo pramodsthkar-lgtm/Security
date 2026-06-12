@@ -10,34 +10,42 @@ import { AIExpert } from "./pages/AIExpert";
 import { SOS } from "./pages/SOS";
 import { Profile } from "./pages/Profile";
 import { Login } from "./pages/Login";
+import { Subscription } from "./pages/Subscription";
+import { LanguageProvider } from "./contexts/LanguageContext";
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  if (!isAuthenticated) {
-    return <Login onLogin={() => setIsAuthenticated(true)} />;
-  }
+  const [isSubscribed, setIsSubscribed] = useState(false);
 
   // Provide an empty/placeholder API key if none is set, to prevent crashes.
   // The map might show a developer overlay, but the UI component will render.
   const mapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || "PLACEHOLDER_KEY";
 
   return (
-    <APIProvider apiKey={mapsApiKey}>
-      <BrowserRouter>
-        <MainLayout>
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/scan" element={<SecurityScan />} />
-            <Route path="/lost-phone" element={<LostPhone />} />
-            <Route path="/phishing" element={<PhishingCheck />} />
-            <Route path="/ai-expert" element={<AIExpert />} />
-            <Route path="/sos" element={<SOS />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </MainLayout>
-      </BrowserRouter>
-    </APIProvider>
+    <LanguageProvider>
+      {!isAuthenticated ? (
+        <Login onLogin={() => setIsAuthenticated(true)} />
+      ) : !isSubscribed ? (
+        <Subscription onSubscribe={() => setIsSubscribed(true)} />
+      ) : (
+        <APIProvider apiKey={mapsApiKey}>
+          <BrowserRouter>
+            <MainLayout>
+              <Routes>
+                <Route path="/" element={<Dashboard />} />
+                <Route path="/scan" element={<SecurityScan />} />
+                <Route path="/lost-phone" element={<LostPhone />} />
+                <Route path="/phishing" element={<PhishingCheck />} />
+                <Route path="/ai-expert" element={<AIExpert />} />
+                <Route path="/sos" element={<SOS />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="*" element={<Navigate to="/" replace />} />
+              </Routes>
+            </MainLayout>
+          </BrowserRouter>
+        </APIProvider>
+      )}
+    </LanguageProvider>
   );
 }
+

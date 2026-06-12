@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Search, Shield, Smartphone, Key } from "lucide-react";
 import { Card, CardContent, CardHeader, Button } from "../components/ui/shared";
+import { useLanguage } from "../contexts/LanguageContext";
 
 export function SecurityScan() {
   const [scanning, setScanning] = useState(false);
   const [progress, setProgress] = useState(0);
+  const { t } = useLanguage();
 
   const startScan = () => {
     setScanning(true);
@@ -31,9 +33,9 @@ export function SecurityScan() {
           </div>
         </div>
         
-        <h2 className="text-2xl font-bold mb-2">Device Security Scan</h2>
+        <h2 className="text-2xl font-bold mb-2">{t("scan.title")}</h2>
         <p className="text-slate-400 max-w-md mx-auto mb-8">
-          Scan your device for malware, risky apps, and insecure settings.
+          {t("scan.desc")}
         </p>
 
         {scanning ? (
@@ -41,54 +43,54 @@ export function SecurityScan() {
              <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
                 <div className="h-full bg-emerald-500 transition-all duration-200" style={{ width: `${progress}%` }}></div>
              </div>
-             <p className="text-sm text-slate-400">Scanning system files... {progress}%</p>
+             <p className="text-sm text-slate-400">{t("scan.scanning")} {progress}%</p>
           </div>
         ) : (
           <Button onClick={startScan} className="px-8 py-3 text-lg rounded-full">
-            Start Deep Scan
+            {t("scan.start")}
           </Button>
         )}
       </Card>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Card>
-          <CardHeader title="Installed Apps" icon={Smartphone} />
+          <CardHeader title={t("scan.instApps")} icon={Smartphone} />
           <CardContent>
             <div className="flex items-center justify-between mb-4">
-              <span className="text-slate-400">Total Apps</span>
+              <span className="text-slate-400">{t("scan.totalApps")}</span>
               <span className="font-semibold text-lg">142</span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-slate-400">Risky Apps</span>
+              <span className="text-slate-400">{t("scan.riskyApps")}</span>
               <span className="font-semibold text-rose-400">0</span>
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardHeader title="Permissions" icon={Shield} />
+          <CardHeader title={t("dash.perms")} icon={Shield} />
           <CardContent>
             <div className="flex items-center justify-between mb-4">
-              <span className="text-slate-400">Location Access</span>
-              <span className="text-amber-400 text-sm font-medium bg-amber-400/10 px-2 py-1 rounded">12 apps</span>
+              <span className="text-slate-400">{t("scan.locAccess")}</span>
+              <span className="text-amber-400 text-sm font-medium bg-amber-400/10 px-2 py-1 rounded">12</span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-slate-400">Camera Access</span>
-              <span className="text-slate-200 text-sm font-medium bg-slate-800 px-2 py-1 rounded">5 apps</span>
+              <span className="text-slate-400">{t("scan.camAccess")}</span>
+              <span className="text-slate-200 text-sm font-medium bg-slate-800 px-2 py-1 rounded">5</span>
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardHeader title="Passwords" icon={Key} />
+          <CardHeader title={t("scan.passwords")} icon={Key} />
           <CardContent>
-            <div className="flex items-center justify-between mb-4">
-              <span className="text-slate-400">Saved Passwords</span>
+             <div className="flex items-center justify-between mb-4">
+              <span className="text-slate-400">{t("scan.savedPass")}</span>
               <span className="font-semibold text-lg">48</span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-slate-400">Weak Passwords</span>
-              <span className="text-emerald-400 text-sm font-medium bg-emerald-400/10 px-2 py-1 rounded">0 found</span>
+              <span className="text-slate-400">{t("scan.weakPass")}</span>
+              <span className="text-emerald-400 text-sm font-medium bg-emerald-400/10 px-2 py-1 rounded">0</span>
             </div>
           </CardContent>
         </Card>

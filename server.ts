@@ -27,7 +27,7 @@ async function startServer() {
       const systemInstruction = `You are a cybersecurity expert AI assistant embedded within the 'Cyber Shield' app. 
       Your goal is to provide concise, accurate, and helpful cybersecurity advice. 
       Help users understand device security, phishing, network threats, and best practices.
-      Keep your answers brief and easy to read.`;
+      Keep your answers brief and easy to read. VERY IMPORTANT: You MUST respond entirely in the Hindi language.`;
 
       const response = await ai.models.generateContent({
         model: "gemini-2.5-flash",

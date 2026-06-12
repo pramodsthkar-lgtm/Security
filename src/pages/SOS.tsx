@@ -1,9 +1,11 @@
 import { AlertOctagon, PhoneCall, Share2 } from "lucide-react";
 import { Card, CardContent, Button } from "../components/ui/shared";
 import { useState } from "react";
+import { useLanguage } from "../contexts/LanguageContext";
 
 export function SOS() {
   const [active, setActive] = useState(false);
+  const { t } = useLanguage();
 
   const triggerSOS = () => {
     setActive(true);
@@ -14,8 +16,8 @@ export function SOS() {
     <div className="max-w-xl mx-auto text-center space-y-8 mt-10">
       
       <div className="space-y-4">
-        <h2 className="text-3xl font-bold text-rose-500">Emergency SOS</h2>
-        <p className="text-slate-400">Tap the button below to instantly alert your emergency contacts and share your live location.</p>
+        <h2 className="text-3xl font-bold text-rose-500">{t("sos.title")}</h2>
+        <p className="text-slate-400">{t("sos.desc")}</p>
       </div>
 
       <button
@@ -32,13 +34,13 @@ export function SOS() {
         )}
         <div className="flex flex-col items-center gap-2">
            <AlertOctagon size={64} className="text-white" />
-           <span className="font-bold text-2xl text-white uppercase tracking-widest">{active ? 'Active' : 'SOS'}</span>
+           <span className="font-bold text-2xl text-white uppercase tracking-widest">{active ? t("sos.activeT") : t("sos.sos")}</span>
         </div>
       </button>
 
       {active && (
         <div className="bg-rose-500/10 border border-rose-500/30 text-rose-400 p-4 rounded-xl font-medium animate-pulse">
-           Alerting emergency contacts and broadcasting location...
+           {t("sos.alerting")}
         </div>
       )}
 
@@ -49,8 +51,8 @@ export function SOS() {
                 <Share2 size={24} />
               </div>
               <div>
-                 <p className="font-semibold">Location Shared</p>
-                 <p className="text-sm text-slate-400 text-emerald-400 text-xs mt-1">Status: Active</p>
+                 <p className="font-semibold">{t("sos.shared")}</p>
+                 <p className="text-sm text-slate-400 text-emerald-400 mt-1">{t("sos.statusActive")}</p>
               </div>
            </CardContent>
          </Card>
@@ -61,11 +63,11 @@ export function SOS() {
                   <PhoneCall size={24} />
                 </div>
                 <div>
-                   <p className="font-semibold">Contacts</p>
-                   <p className="text-sm text-slate-400 mt-1">3 notified</p>
+                   <p className="font-semibold">{t("sos.contacts")}</p>
+                   <p className="text-sm text-slate-400 mt-1">{t("sos.notified")}</p>
                 </div>
               </div>
-              <Button variant="secondary" className="px-3 text-xs">Edit</Button>
+              <Button variant="secondary" className="px-3 text-xs">{t("sos.edit")}</Button>
            </CardContent>
          </Card>
       </div>

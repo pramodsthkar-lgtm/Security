@@ -2,10 +2,12 @@ import { useState, useRef, useEffect } from "react";
 import { Send, Bot, User, Loader2 } from "lucide-react";
 import { Card, Input } from "../components/ui/shared";
 import Markdown from 'react-markdown';
+import { useLanguage } from "../contexts/LanguageContext";
 
 export function AIExpert() {
+  const { t } = useLanguage();
   const [messages, setMessages] = useState([
-    { role: "ai", text: "Hello! I'm your Cyber Shield AI Assistant. How can I help you secure your digital life today?" }
+    { role: "ai", text: t("ai.init") }
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -39,10 +41,10 @@ export function AIExpert() {
       if (res.ok && data.reply) {
         setMessages(prev => [...prev, { role: "ai", text: data.reply }]);
       } else {
-        setMessages(prev => [...prev, { role: "ai", text: "I encountered an error. Please check if the GEMINI_API_KEY is configured in the AI Studio platform." }]);
+        setMessages(prev => [...prev, { role: "ai", text: t("ai.errorAPI") }]);
       }
     } catch (err) {
-      setMessages(prev => [...prev, { role: "ai", text: "Sorry, I couldn't connect to the server." }]);
+      setMessages(prev => [...prev, { role: "ai", text: t("ai.errorNet") }]);
     } finally {
       setIsLoading(false);
     }
@@ -94,7 +96,7 @@ export function AIExpert() {
           <Input 
             value={input}
             onChange={(e: any) => setInput(e.target.value)}
-            placeholder="Ask about phishing, device security, or best practices..."
+            placeholder={t("ai.placeholder")}
             className="pl-4 pr-12 py-4 rounded-xl bg-slate-950 border-slate-700"
             disabled={isLoading}
           />

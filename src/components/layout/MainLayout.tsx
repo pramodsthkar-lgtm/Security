@@ -7,30 +7,32 @@ import {
   Bot, 
   AlertOctagon, 
   User, 
-  Settings, 
   LogOut,
   Menu,
   X,
   Activity
 } from "lucide-react";
 import { useState } from "react";
+import { useLanguage } from "../../contexts/LanguageContext";
+import { languages } from "../../translations";
 
 export function MainLayout({ children }: { children: ReactNode }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const { t, language, setLanguage } = useLanguage();
 
   const navigation = [
-    { name: "Dashboard", href: "/", icon: Activity },
-    { name: "Security Scan", href: "/scan", icon: ShieldCheck },
-    { name: "Lost Phone", href: "/lost-phone", icon: MapPin },
-    { name: "Phishing Check", href: "/phishing", icon: MessageSquareWarning },
-    { name: "AI Assistant", href: "/ai-expert", icon: Bot },
-    { name: "SOS", href: "/sos", icon: AlertOctagon },
-    { name: "Profile", href: "/profile", icon: User },
+    { name: t("nav.dashboard"), href: "/", icon: Activity },
+    { name: t("nav.scan"), href: "/scan", icon: ShieldCheck },
+    { name: t("nav.lostPhone"), href: "/lost-phone", icon: MapPin },
+    { name: t("nav.phishing"), href: "/phishing", icon: MessageSquareWarning },
+    { name: t("nav.ai"), href: "/ai-expert", icon: Bot },
+    { name: t("nav.sos"), href: "/sos", icon: AlertOctagon },
+    { name: t("nav.profile"), href: "/profile", icon: User },
     // { name: "Admin", href: "/admin", icon: Settings },
   ];
 
-  const currentNav = navigation.find(n => n.href === location.pathname) || { name: 'Cyber Shield' };
+  const currentNav = navigation.find(n => n.href === location.pathname) || { name: t("nav.brand") };
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-50 flex">
@@ -40,7 +42,7 @@ export function MainLayout({ children }: { children: ReactNode }) {
           <div className="p-2 bg-emerald-500/20 text-emerald-400 rounded-lg">
             <ShieldCheck size={24} />
           </div>
-          <span className="font-bold text-xl tracking-tight">Cyber Shield</span>
+          <span className="font-bold text-xl tracking-tight">{t("nav.brand")}</span>
         </div>
         
         <nav className="flex-1 py-6 px-4 space-y-1 overflow-y-auto">
@@ -69,7 +71,7 @@ export function MainLayout({ children }: { children: ReactNode }) {
             className="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium text-slate-400 hover:text-slate-50 hover:bg-slate-800 transition-colors"
           >
             <LogOut size={18} />
-            Log Out
+            {t("nav.logout")}
           </Link>
         </div>
       </aside>
@@ -93,6 +95,15 @@ export function MainLayout({ children }: { children: ReactNode }) {
           </div>
 
           <div className="flex items-center gap-3">
+             <select 
+               value={language}
+               onChange={(e) => setLanguage(e.target.value as any)}
+               className="bg-slate-800 text-slate-200 border border-slate-700 rounded-md px-2 py-1 text-sm focus:outline-none"
+             >
+               {languages.map(l => (
+                 <option key={l.code} value={l.code}>{l.name}</option>
+               ))}
+             </select>
              <div className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center border border-slate-700">
                 <User size={16} className="text-slate-400" />
              </div>
@@ -107,7 +118,7 @@ export function MainLayout({ children }: { children: ReactNode }) {
                <div className="flex items-center justify-between p-4 border-b border-slate-800">
                  <div className="flex items-center gap-2 text-emerald-400">
                     <ShieldCheck size={24} />
-                    <span className="font-bold">Cyber Shield</span>
+                    <span className="font-bold">{t("nav.brand")}</span>
                  </div>
                  <button onClick={() => setIsMobileMenuOpen(false)} className="text-slate-400 p-1">
                    <X size={20} />
@@ -147,3 +158,4 @@ export function MainLayout({ children }: { children: ReactNode }) {
     </div>
   );
 }
+

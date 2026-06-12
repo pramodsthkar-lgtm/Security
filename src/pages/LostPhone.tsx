@@ -4,10 +4,12 @@ import { Card, CardContent, Button } from "../components/ui/shared";
 // Using a placeholder map since we might not have a Google Maps key set yet,
 // but let's implement the UI wrapper
 import { Map, AdvancedMarker } from '@vis.gl/react-google-maps';
+import { useLanguage } from "../contexts/LanguageContext";
 
 export function LostPhone() {
   const [lostMode, setLostMode] = useState(false);
   const position = { lat: 37.7749, lng: -122.4194 }; // SF placeholder
+  const { t } = useLanguage();
 
   return (
     <div className="space-y-6 h-full flex flex-col">
@@ -29,7 +31,7 @@ export function LostPhone() {
           <div className="absolute top-4 left-4 right-4 flex justify-between pointer-events-none">
             <div className="bg-slate-900/90 backdrop-blur pointer-events-auto px-4 py-2 rounded-lg border border-slate-700 flex items-center gap-2">
               <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
-              <span className="text-sm font-medium">Live GPS Tracking Active</span>
+              <span className="text-sm font-medium">{t("phone.live")}</span>
             </div>
           </div>
         </Card>
@@ -38,28 +40,28 @@ export function LostPhone() {
           <Card>
             <CardContent className="space-y-6">
               <div>
-                <h3 className="font-semibold text-lg mb-4">Device Status</h3>
+                <h3 className="font-semibold text-lg mb-4">{t("phone.status")}</h3>
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3 text-slate-400">
                       <Battery size={18} />
-                      <span>Battery</span>
+                      <span>{t("phone.battery")}</span>
                     </div>
                     <span className="font-medium text-emerald-400">78%</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3 text-slate-400">
                       <Wifi size={18} />
-                      <span>Network</span>
+                      <span>{t("phone.network")}</span>
                     </div>
-                    <span className="font-medium">Connected</span>
+                    <span className="font-medium">{t("phone.connected")}</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3 text-slate-400">
                       <Navigation size={18} />
-                      <span>Last Seen</span>
+                      <span>{t("phone.lastSeen")}</span>
                     </div>
-                    <span className="font-medium text-sm">Just now</span>
+                    <span className="font-medium text-sm">{t("phone.justNow")}</span>
                   </div>
                 </div>
               </div>
@@ -69,17 +71,17 @@ export function LostPhone() {
           <Card>
             <CardContent className="space-y-3">
               <Button className="w-full justify-start" variant="secondary">
-                Ring Device
+                {t("phone.ring")}
               </Button>
               <Button 
                 className="w-full justify-start" 
                 variant={lostMode ? 'secondary' : 'danger'}
                 onClick={() => setLostMode(!lostMode)}
               >
-                {lostMode ? 'Disable Lost Mode' : 'Enable Lost Mode'}
+                {lostMode ? t("phone.disableLost") : t("phone.enableLost")}
               </Button>
               <Button className="w-full justify-start" variant="primary">
-                Secure Erase
+                {t("phone.secureErase")}
               </Button>
             </CardContent>
           </Card>
